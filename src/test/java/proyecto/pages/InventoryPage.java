@@ -71,6 +71,10 @@ public class InventoryPage extends BasePage {
     // ---- Ordenamiento: az, za, lohi, hilo ----
     public void sortBy(String value) { new Select(wait.until(ExpectedConditions.elementToBeClickable(sortSelect))).selectByValue(value); }
 
+    /**
+     * Ordena y devuelve el texto de la alerta que muestre la página (error_user), o null si no hay alerta.
+     * La alerta se acepta para que la prueba pueda seguir leyendo el listado.
+     */
     public String sortByAndReadAlert(String value) {
         try {
             sortBy(value);
