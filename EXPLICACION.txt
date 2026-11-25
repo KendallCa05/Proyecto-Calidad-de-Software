@@ -1,0 +1,38 @@
+EXPLICACION DE LA AUTOMATIZACION DE CARRITO Y COMPRA
+
+Este proyecto usa Java, Selenium 4, JUnit 5 y Maven para verificar el flujo de carrito y checkout de la tienda demostrativa Swag Labs.
+
+ESTRUCTURA
+
+src/test/java/proyecto/pages/BasePage.java
+Contiene esperas explícitas y acciones comunes para ubicar, leer, escribir y pulsar elementos. Centralizar estas funciones evita repetir lógica de Selenium y hace que los cambios de sincronización se apliquen a todas las pantallas.
+
+LoginPage.java
+Abre la dirección de Swag Labs e inicia sesión con credenciales de demostración proporcionadas localmente mediante variables de entorno. Se separa el inicio de sesión de los casos para mantener cada prueba enfocada en el comportamiento que comprueba.
+
+InventoryPage.java
+Representa la pantalla de productos. Agrega o retira productos, consulta el contador del carrito y permite abrir el carrito. Los botones se buscan por identificador del producto, que es más preciso que depender de la posición visual.
+
+CartPage.java
+Representa el carrito. Consulta artículos, elimina productos, lee el contador y navega a checkout o de vuelta al inventario. Espera a que el producto desaparezca después de retirarlo para evitar validar antes de que la página termine de actualizarse.
+
+CheckoutPage.java
+Representa los datos del comprador, el resumen, la finalización y la confirmación. Incluye métodos para completar campos, continuar, cancelar, finalizar y leer mensajes e importes. La clase espera la dirección y los controles de la pantalla correspondiente.
+
+CheckoutTest.java
+Contiene 15 pruebas independientes con JUnit. Antes de cada caso crea el navegador, inicia sesión y prepara el inventario; después cierra el navegador. Los escenarios verifican el contador, agregar y quitar productos, navegación, campos requeridos, resumen, impuestos, total y confirmación.
+
+POM.XML
+Declara Selenium, JUnit y el compilador Maven. Maven descarga las dependencias y ejecuta los casos con `mvn test`. Selenium Manager resuelve el controlador del navegador cuando es necesario.
+
+POR QUE SE USO PAGE OBJECT MODEL
+
+Page Object Model separa los detalles de la interfaz (identificadores, botones y acciones) de las verificaciones del caso. Si un identificador cambia, se corrige en su clase de página en vez de modificar cada prueba. JUnit organiza escenarios repetibles y Maven permite ejecutarlos con una sola orden desde IntelliJ o una terminal.
+
+EJECUCION
+
+Desde la carpeta que contiene pom.xml, ejecutar `mvn test`. La suite fue ejecutada con Chrome; la última corrida registrada tuvo 15 casos aprobados, 0 fallidos, 0 errores y duró 74.36 segundos. La advertencia de Selenium acerca de CDP y Chrome 158 no impidió esa ejecución.
+
+ALCANCE Y LIMITACIONES
+
+Se usa una cuenta pública de demostración y datos ficticios; no se realizan pagos reales. Los resultados describen la corrida registrada, no garantizan ejecuciones futuras. El tiempo manual comparable no se midió y la interacción asistida por navegador no sustituye una ejecución manual personal si el curso la solicita.
