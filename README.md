@@ -64,3 +64,16 @@ La documentación incluida en este repositorio está en `docs/`. La comprobació
 ## Alcance y notas
 
 Las pruebas automatizadas cubren 15 escenarios del carrito y checkout con una cuenta de demostración configurada localmente. No se guardan credenciales ni datos personales en el repositorio; los casos usan datos ficticios. No se automatizan compras de verdad ni se envían datos reales. Los localizadores se basan en los identificadores `data-test`/`id` habituales del sitio; si el sitio cambia, actualizar el Page Object correspondiente.
+
+## Pruebas de login e inventario (Persona 1)
+
+Clases: `LoginTest` (CP-16 a CP-26, CP-28, CP-29), `InventoryTest` (CP-30 a CP-35) y `UsuariosConDefectosTest` (CP-36 a CP-41 y CP-43). Cada test lleva su identificador en `@DisplayName`. Los datos del login están en `src/test/resources/login_cases.csv` (`@ParameterizedTest` + `@CsvFileSource`) y la configuración por defecto en `src/test/resources/config.properties`. La clave de demostración se toma de `-DtestPassword`, de `SWAGLABS_TEST_PASSWORD` o, si no hay ninguna, de `config.properties`.
+
+```powershell
+mvn test                       # todas las pruebas
+mvn test -Dtest=LoginTest      # solo el login
+```
+
+`UsuariosConDefectosTest` usa los usuarios con fallas intencionales (`problem_user`, `error_user`, `visual_user`, `performance_glitch_user`) y está escrita con el comportamiento correcto: **sus tests fallan mientras el defecto exista**. Por eso el `pom.xml` usa `testFailureIgnore=true`: el build no se detiene y siempre se genera el reporte. Las capturas de las pruebas fallidas quedan en `target/screenshots/` y se listan en `target/site/capturas-fallos.html`.
+
+Documentación de esta parte: `docs/persona1_requerimientos_y_revision.md`, `docs/persona1_contexto_plan_y_casos.md` y `docs/persona1_ejecucion_y_defectos.md`.

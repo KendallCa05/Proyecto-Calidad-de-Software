@@ -1,0 +1,11 @@
+caso,descripcion,usuario,clave,resultado,mensaje
+CP-16,Login válido con standard_user,standard_user,{PASSWORD},OK,
+CP-17,Usuario y clave vacíos,,,ERROR,Epic sadface: Username is required
+CP-18,Usuario sin clave,standard_user,,ERROR,Epic sadface: Password is required
+CP-19,Clave sin usuario,,{PASSWORD},ERROR,Epic sadface: Username is required
+CP-20,Clave incorrecta,standard_user,clave_incorrecta,ERROR,Epic sadface: Username and password do not match any user in this service
+CP-21,Usuario inexistente,usuario_inexistente,{PASSWORD},ERROR,Epic sadface: Username and password do not match any user in this service
+CP-22,Usuario bloqueado locked_out_user,locked_out_user,{PASSWORD},ERROR,"Epic sadface: Sorry, this user has been locked out."
+CP-23,Usuario con mayúsculas distintas,Standard_User,{PASSWORD},ERROR,Epic sadface: Username and password do not match any user in this service
+CP-24,Usuario de 1 carácter (frontera mínima),a,{PASSWORD},ERROR,Epic sadface: Username and password do not match any user in this service
+CP-25,Usuario de 256 caracteres (frontera superior probada),aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,{PASSWORD},ERROR,Epic sadface: Username and password do not match any user in this service
