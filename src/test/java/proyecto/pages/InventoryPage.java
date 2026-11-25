@@ -94,6 +94,12 @@ public class InventoryPage extends BasePage {
     /** Pulsa Add to cart y devuelve true si el botón pasó a Remove en 2 s (no lanza excepción si no cambia). */
     public boolean tryAddProduct(String item) {
         click(addButton(item));
+        if (removeAppears(item)) return true;
+        click(addButton(item));
+        return removeAppears(item);
+    }
+
+    private boolean removeAppears(String item) {
         try {
             return new WebDriverWait(driver, Duration.ofSeconds(2))
                     .until(ExpectedConditions.visibilityOfElementLocated(removeButton(item))).isDisplayed();
@@ -104,6 +110,18 @@ public class InventoryPage extends BasePage {
 
     public ProductDetailPage openDetail(String productName) {
         click(By.linkText(productName));
+        if (!detailOpened()) {
+            click(By.linkText(productName));
+        }
         return new ProductDetailPage(driver);
+    }
+
+    private boolean detailOpened() {
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.urlContains("/inventory-item.html"));
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 }

@@ -2,6 +2,8 @@ package proyecto.pages;
 
 import java.time.Duration;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -17,7 +19,16 @@ public abstract class BasePage {
     }
 
     protected void click(By locator) { wait.until(ExpectedConditions.elementToBeClickable(locator)).click(); }
-    protected String text(By locator) { return wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).getText(); }
+    protected String text(By locator) {
+        return wait.until(d -> {
+            try {
+                var element = d.findElement(locator);
+                return element.isDisplayed() ? element.getText() : null;
+            } catch (StaleElementReferenceException | NoSuchElementException e) {
+                return null;
+            }
+        });
+    }
     protected void type(By locator, String value) {
         var field = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
         field.clear();
